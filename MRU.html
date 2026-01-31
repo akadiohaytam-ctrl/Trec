@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Movimiento Rectilíneo Uniforme</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .panel {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        width: 350px;
+        margin: 0 auto 20px auto;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #aaa;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background: #0078ff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background: #005fcc;
+    }
+
+    #escenario {
+        width: 100%;
+        height: 120px;
+        background: #ddd;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        margin-top: 20px;
+    }
+
+    #coche {
+        width: 80px;
+        height: 40px;
+        background: red;
+        border-radius: 10px;
+        position: absolute;
+        top: 40px;
+        left: 0;
+        transition: left linear;
+    }
+</style>
+</head>
+<body>
+
+<h1>Movimiento Rectilíneo Uniforme (MRU)</h1>
+
+<div class="panel">
+    <label>Velocidad (px/s):</label>
+    <input type="number" id="velocidad" value="100">
+
+    <label>Tiempo (s):</label>
+    <input type="number" id="tiempo" value="3">
+
+    <button onclick="mover()">Iniciar movimiento</button>
+</div>
+
+<div id="escenario">
+    <div id="coche"></div>
+</div>
+
+<script>
+function mover() {
+    const v = parseFloat(document.getElementById("velocidad").value);
+    const t = parseFloat(document.getElementById("tiempo").value);
+
+    const coche = document.getElementById("coche");
+    const escenario = document.getElementById("escenario");
+
+    const distancia = v * t; // MRU: d = v * t
+
+    coche.style.transitionDuration = t + "s";
+    coche.style.left = distancia + "px";
+
+    // Reiniciar después de terminar
+    setTimeout(() => {
+        coche.style.transitionDuration = "0s";
+        coche.style.left = "0px";
+    }, t * 1000 + 200);
+}
+</script>
+
+</body>
+</html>
