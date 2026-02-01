@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Simulador MRUA</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #1e1e1e;
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .container {
+        background: #2c2c2c;
+        padding: 20px;
+        border-radius: 10px;
+        width: 350px;
+        margin: auto;
+        box-shadow: 0 0 10px #000;
+    }
+
+    input {
+        width: 80%;
+        padding: 8px;
+        margin: 8px 0;
+        border-radius: 5px;
+        border: none;
+    }
+
+    button {
+        padding: 10px 20px;
+        background: #4CAF50;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background: #45a049;
+    }
+
+    #output {
+        margin-top: 20px;
+        font-size: 18px;
+        background: #111;
+        padding: 15px;
+        border-radius: 10px;
+        min-height: 80px;
+    }
+
+    /* Animación del punto */
+    #punto {
+        width: 20px;
+        height: 20px;
+        background: red;
+        border-radius: 50%;
+        position: relative;
+        margin: 20px auto;
+    }
+
+    #linea {
+        width: 90%;
+        height: 4px;
+        background: white;
+        margin: auto;
+        border-radius: 2px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Simulador MRUA</h1>
+
+<div class="container">
+    <label>Velocidad inicial (m/s):</label><br>
+    <input type="number" id="v0" value="0"><br>
+
+    <label>Aceleración (m/s²):</label><br>
+    <input type="number" id="a" value="2"><br>
+
+    <label>Tiempo total (s):</label><br>
+    <input type="number" id="t_total" value="5"><br>
+
+    <button onclick="simular()">Iniciar Simulación</button>
+
+    <div id="output"></div>
+</div>
+
+<div id="linea"></div>
+<div id="punto"></div>
+
+<script>
+function simular() {
+    let v0 = parseFloat(document.getElementById("v0").value);
+    let a = parseFloat(document.getElementById("a").value);
+    let t_total = parseFloat(document.getElementById("t_total").value);
+
+    let punto = document.getElementById("punto");
+    let output = document.getElementById("output");
+
+    let t = 0;
+    let dt = 0.05;
+
+    output.innerHTML = "Simulando...";
+
+    let intervalo = setInterval(() => {
+        if (t > t_total) {
+            clearInterval(intervalo);
+            output.innerHTML += "<br>Simulación terminada.";
+            return;
+        }
+
+        // Fórmulas MRUA
+        let x = v0 * t + 0.5 * a * t * t;
+        let v = v0 + a * t;
+
+        // Mostrar datos
+        output.innerHTML = `
+            Tiempo: ${t.toFixed(2)} s<br>
+            Posición: ${x.toFixed(2)} m<br>
+            Velocidad: ${v.toFixed(2)} m/s
+        `;
+
+        // Animación del punto (escala x10 para que se vea)
+        punto.style.left = (x * 10) + "px";
+
+        t += dt;
+    }, 50);
+}
+</script>
+
+</body>
+</html>
